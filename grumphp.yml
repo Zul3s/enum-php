@@ -1,0 +1,15 @@
+parameters:
+  ascii:
+    failed: ~
+    succeeded: ~
+  tasks:
+    phpversion:
+      project: '7.1'
+    composer: ~
+    securitychecker: ~
+    phpunit: ~
+    phpcpd: ~
+    phpcs:
+      standard: 'PSR2'
+    phplint: ~
+    git_commit_message: ~
