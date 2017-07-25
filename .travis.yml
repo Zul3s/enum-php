@@ -3,7 +3,6 @@ sudo: false
 
 php:
   - 7.1
-  - nightly
 
 before_script:
   - composer install --no-interaction
@@ -15,8 +14,4 @@ script:
 after_script:
     - wget https://scrutinizer-ci.com/ocular.phar
     - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
-
-
-# Use Travis' new container-based infrastructure.
-# See http://docs.travis-ci.com/user/migrating-from-legacy/#How-can-I-use-container-based-infrastructure%3F
 
