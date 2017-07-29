@@ -2,6 +2,7 @@
 
 namespace Zul3s\EnumPhp;
 
+use JsonSerializable;
 use Zul3s\EnumPhp\Interfaces\EnumInterface;
 
 /**
@@ -12,7 +13,7 @@ use Zul3s\EnumPhp\Interfaces\EnumInterface;
  *
  * @author Julien Zirnheld <julienzirnheld@gmail.com>
  */
-abstract class Enum implements EnumInterface
+abstract class Enum implements EnumInterface, JsonSerializable
 {
     /**
      * @var mixed $value
@@ -45,7 +46,6 @@ abstract class Enum implements EnumInterface
         return self::byKey($method);
     }
 
-
     /**
      * @return string
      */
@@ -62,6 +62,15 @@ abstract class Enum implements EnumInterface
         throw new \LogicException('Enums are singleton, it is not cloneable');
     }
 
+    /**
+     * Return the enum value when json_encode() is called
+     *
+     * @return mixed
+     */
+    public function jsonSerialize()
+    {
+        return $this->getValue();
+    }
 
     /**
      * Return enum value
