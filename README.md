@@ -61,6 +61,9 @@ use Zul3s\EnumPhp\Enum;
  */
 class Simpson extends Enum
 {
+    /**
+    * @description('Description for Homer const')
+    */
     const HOMER  = 1;
     const MARGE  = 'marjorie_jacqueline';
 }
@@ -99,6 +102,7 @@ function setMember(Simpson $member)
 
 - `$myEnum->getValue() : mixed` Return value of enum
 - `$myEnum->getKey() : string` Return string with const name
+- `$myEnum->getDescription() : string` Return description annotation if is set or exception
 - `$myEnum->isEquals(Enum $myEnum) : bool` Check if enum is equals to another
 - `echo $myEnum : string` __toString() have implemented to return cast of string value
 

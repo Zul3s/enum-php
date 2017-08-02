@@ -19,7 +19,13 @@ use Zul3s\EnumPhp\Enum;
  */
 class FakeEnum extends Enum
 {
+    /**
+     * @description('Value int 1 description')
+     */
     const VALUE_INT_1 = 1;
+    /**
+     * @description("Value int 2 description")
+     */
     const VALUE_INT_2 = 2;
     const VALUE_STRING_1 = 'value_1';
     const VALUE_STRING_2 = "value 2";

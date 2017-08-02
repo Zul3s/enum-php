@@ -70,6 +70,36 @@ abstract class EnumCacheManagement
     }
 
     /**
+     * @param string $className
+     *
+     * @return void
+     */
+    public static function setDescriptions(string $className) : void
+    {
+        $annotations = ConstAnnotationsParser::parseAndReturnAnnotations($className);
+
+        foreach ($annotations as $key => $annotation) {
+            if (array_key_exists('description', $annotation)) {
+                self::setDescription(self::$instanced[$className][$key], $annotation['description']);
+            }
+        }
+    }
+
+    /**
+     * @param Enum $class
+     * @param string $value
+     *
+     * @return void
+     */
+    private static function setDescription(Enum $class, string $value) : void
+    {
+        $reflection = new \ReflectionClass(get_class($class));
+        $property = $reflection->getProperty('description');
+        $property->setAccessible(true);
+        $property->setValue($class, $value);
+    }
+
+    /**
      * @param $className
      * @param $constName
      * @throws \UnexpectedValueException

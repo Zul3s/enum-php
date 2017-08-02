@@ -52,6 +52,21 @@ class EnumTest extends TestCase
     }
 
     /**
+     * Test getDescription
+     */
+    public function testGetDescription() : void
+    {
+        $enum = FakeEnum::VALUE_INT_1();
+        $this->assertEquals('Value int 1 description', $enum->getDescription());
+
+        $enum = FakeEnum::VALUE_INT_2();
+        $this->assertEquals('Value int 2 description', $enum->getDescription());
+
+        $this->expectException(\InvalidArgumentException::class);
+        FakeEnum::VALUE_STRING_1()->getDescription();
+    }
+
+    /**
      * Test to string method
      */
     public function testToString() : void

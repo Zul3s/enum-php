@@ -26,6 +26,11 @@ abstract class Enum implements EnumInterface, JsonSerializable
     private $key;
 
     /**
+     * @var string $description
+     */
+    protected $description;
+
+    /**
      * Enum constructor.
      * @param $value
      * @param string $key
@@ -92,6 +97,22 @@ abstract class Enum implements EnumInterface, JsonSerializable
         return $this->key;
     }
 
+    /**
+     * Get content of description annotation
+     *
+     * @return string
+     */
+    public function getDescription() : string
+    {
+        if (is_null($this->description)) {
+            EnumCacheManagement::setDescriptions(get_called_class());
+        }
+        if (is_null($this->description)) {
+            throw new \InvalidArgumentException('No description is available for ' . get_called_class() .
+                ' with value : ' . $this->value);
+        }
+        return $this->description;
+    }
 
     /**
      * Check if this instance of enum is equals to another
