@@ -4,7 +4,7 @@ parameters:
     succeeded: ~
   tasks:
     phpversion:
-      project: '7.1'
+      project: '7.1.*'
     composer: ~
     securitychecker: ~
     phpunit: ~
