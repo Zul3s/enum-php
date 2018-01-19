@@ -26,7 +26,7 @@ abstract class ConstAnnotationsParser
         $doc = null;
         $isConst = false;
         foreach ($tokens as $token) {
-            if (count($token) <= 1) {
+            if (\is_array($token) && count($token) <= 1) {
                 continue;
             }
 
@@ -56,7 +56,7 @@ abstract class ConstAnnotationsParser
                                 continue;
                             }
                             preg_match_all("/@(\w+)\(\s*([^\(]*?)\s*\)/", $line, $match);
-                            if (count($match) > 0) {
+                            if (\is_array($match) && count($match) > 0) {
                                 for ($i = 0, $iMax = count($match[0]); $i < $iMax; $i++) {
                                     $annotations[$match[1][$i]] = trim($match[2][$i], "'\"");
                                 }
