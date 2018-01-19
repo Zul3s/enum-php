@@ -14,9 +14,10 @@ abstract class ConstAnnotationsParser
      * Parses the class for constant annotations
      *
      * @param $class
-     * @return mixed
+     * @return array
+     * @throws \ReflectionException
      */
-    public static function parseAndReturnAnnotations($class)
+    public static function parseAndReturnAnnotations($class): array
     {
         $constantsAnnotations = array();
         $class = new \ReflectionClass($class);
@@ -56,7 +57,7 @@ abstract class ConstAnnotationsParser
                             }
                             preg_match_all("/@(\w+)\(\s*([^\(]*?)\s*\)/", $line, $match);
                             if (count($match) > 0) {
-                                for ($i = 0; $i < count($match[0]); $i++) {
+                                for ($i = 0, $iMax = count($match[0]); $i < $iMax; $i++) {
                                     $annotations[$match[1][$i]] = trim($match[2][$i], "'\"");
                                 }
                             }

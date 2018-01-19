@@ -7,7 +7,7 @@
 [![composer.lock](https://poser.pugx.org/zul3s/enum-php/composerlock)](https://packagist.org/packages/zul3s/enum-php)
 
 
-PHP 7.1 only supported.  
+PHP >=7.1 only supported.  
 It's an abstract class that needs to be extended to use it.
 
 ## What is an Enumeration?
@@ -103,7 +103,7 @@ function setMember(Simpson $member)
 - `$myEnum->getValue() : mixed` Return value of enum
 - `$myEnum->getKey() : string` Return string with const name
 - `$myEnum->getDescription() : string` Return description annotation if is set or exception
-- `$myEnum->isEquals(Enum $myEnum) : bool` Check if enum is equals to another
+- `$myEnum->isEqual(Enum $myEnum) : bool` Check if enum is equal to another
 - `echo $myEnum : string` __toString() have implemented to return cast of string value
 
 ##### Helper

@@ -27,12 +27,12 @@ interface EnumInterface
     public function getKey(): string;
 
     /**
-     * Check if this instance of enum is equals to another
+     * Check if this instance of enum is equal to another
      *
      * @param EnumInterface $enum
      * @return bool
      */
-    public function isEquals(EnumInterface $enum): bool;
+    public function isEqual(EnumInterface $enum): bool;
 
     /**
      * Return instance of called class enum with const name

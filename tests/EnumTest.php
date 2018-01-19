@@ -53,6 +53,7 @@ class EnumTest extends TestCase
 
     /**
      * Test getDescription
+     * @throws \ReflectionException
      */
     public function testGetDescription() : void
     {
@@ -79,29 +80,30 @@ class EnumTest extends TestCase
     }
 
     /**
-     * Test isEquals method
+     * Test isEqual method
      */
-    public function testIsEquals() : void
+    public function testIsEqual() : void
     {
         $enum = FakeEnum::VALUE_INT_1();
-        $this->assertTrue($enum->isEquals(FakeEnum::VALUE_INT_1()));
-        $this->assertNotTrue($enum->isEquals(FakeEnum::VALUE_INT_2()));
+        $this->assertTrue($enum->isEqual(FakeEnum::VALUE_INT_1()));
+        $this->assertNotTrue($enum->isEqual(FakeEnum::VALUE_INT_2()));
     }
 
     /**
      * Test byValue method
+     * @throws \ReflectionException
      */
     public function testByValue() : void
     {
         $enum = FakeEnum::byValue(FakeEnum::VALUE_INT_1);
-        $this->assertTrue($enum->isEquals(FakeEnum::VALUE_INT_1()));
-        $this->assertNotTrue($enum->isEquals(FakeEnum::VALUE_INT_2()));
+        $this->assertTrue($enum->isEqual(FakeEnum::VALUE_INT_1()));
+        $this->assertNotTrue($enum->isEqual(FakeEnum::VALUE_INT_2()));
 
         $enum = FakeEnum::byValue(FakeEnum::VALUE_STRING_1);
-        $this->assertTrue($enum->isEquals(FakeEnum::VALUE_STRING_1()));
+        $this->assertTrue($enum->isEqual(FakeEnum::VALUE_STRING_1()));
 
         $enum = FakeEnum::byValue('1', false);
-        $this->assertTrue($enum->isEquals(FakeEnum::VALUE_INT_1()));
+        $this->assertTrue($enum->isEqual(FakeEnum::VALUE_INT_1()));
 
         $this->expectException(\UnexpectedValueException::class);
         FakeEnum::byValue('HomeS.');
@@ -110,12 +112,13 @@ class EnumTest extends TestCase
 
     /**
      * Test byName method
+     * @throws \ReflectionException
      */
     public function testByKey() : void
     {
         $enum = FakeEnum::byKey('VALUE_INT_1');
-        $this->assertTrue($enum->isEquals(FakeEnum::VALUE_INT_1()));
-        $this->assertTrue($enum->getValue() === FakeEnum::VALUE_INT_1);
+        $this->assertTrue($enum->isEqual(FakeEnum::VALUE_INT_1()));
+        $this->assertSame($enum->getValue(), FakeEnum::VALUE_INT_1);
 
         $this->expectException(\UnexpectedValueException::class);
         FakeEnum::byKey('HomeS');
@@ -123,40 +126,44 @@ class EnumTest extends TestCase
 
     /**
      * Test getAll method
+     * @throws \ReflectionException
      */
     public function testGetAll() : void
     {
         $all = FakeEnum::getAll();
-        $this->assertTrue(is_array($all));
+        $this->assertTrue(\is_array($all));
 
         $reflection = new \ReflectionClass(FakeEnum::class);
         $const = $reflection->getConstants();
 
-        $this->assertTrue(count($all) === count($const));
-        for ($i = 0; $i < count($all); $i++) {
-            $this->assertTrue($all[$i] instanceof FakeEnum);
-            for ($y = ($i + 1); $y < count($all); $y++) {
-                $this->assertNotTrue($all[$i]->isEquals($all[$y]));
+        $this->assertSame(count($all), count($const));
+        foreach ($all as $i => $iValue) {
+            $this->assertInstanceOf(FakeEnum::class, $all[$i]);
+            for ($y = ($i + 1), $yMax = count($all); $y < $yMax; $y++) {
+                /** @var FakeEnum $iValue */
+                $this->assertNotTrue($iValue->isEqual($all[$y]));
             }
         }
     }
 
     /**
      * Test getValues method
+     * @throws \ReflectionException
      */
     public function testGetValues() : void
     {
         $values = FakeEnum::getValues();
-        $this->assertTrue(is_array($values));
+        $this->assertTrue(\is_array($values));
 
         $reflection = new \ReflectionClass(FakeEnum::class);
         $const = $reflection->getConstants();
 
-        $this->assertTrue($values === $const);
+        $this->assertSame($values, $const);
     }
 
     /**
      * Test is valid key method
+     * @throws \ReflectionException
      */
     public function testIsValidKey() : void
     {
@@ -170,6 +177,7 @@ class EnumTest extends TestCase
 
     /**
      * Test is valid value method
+     * @throws \ReflectionException
      */
     public function testIsValidValue() : void
     {
@@ -185,6 +193,7 @@ class EnumTest extends TestCase
 
     /**
      * Test cache
+     * @throws \ReflectionException
      */
     public function testCache() : void
     {
@@ -206,7 +215,8 @@ class EnumTest extends TestCase
         $enum_2 = FakeEnum::VALUE_INT_2();
         $enum_3 = FakeEnum::VALUE_INT_1();
 
+        $this->assertSame($enum_1, $enum_3);
         $this->assertTrue($enum_1 === $enum_3);
-        $this->assertNotTrue($enum_1 === $enum_2);
+        $this->assertNotSame($enum_1, $enum_2);
     }
 }

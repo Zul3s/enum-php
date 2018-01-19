@@ -33,8 +33,9 @@ abstract class EnumCacheManagement
      * Used to init Enum called class cache
      *
      * @param $className
+     * @throws \ReflectionException
      */
-    final private static function __start($className) : void
+    private static function start($className) : void
     {
         if (!self::isInstanced($className)) {
             self::instancedCurrentClass($className);
@@ -54,6 +55,7 @@ abstract class EnumCacheManagement
     /**
      * @param string $className
      * @return void
+     * @throws \ReflectionException
      */
     public static function instancedCurrentClass(string $className) : void
     {
@@ -73,6 +75,7 @@ abstract class EnumCacheManagement
      * @param string $className
      *
      * @return void
+     * @throws \ReflectionException
      */
     public static function setDescriptions(string $className) : void
     {
@@ -90,6 +93,7 @@ abstract class EnumCacheManagement
      * @param string $value
      *
      * @return void
+     * @throws \ReflectionException
      */
     private static function setDescription(Enum $class, string $value) : void
     {
@@ -104,10 +108,11 @@ abstract class EnumCacheManagement
      * @param $constName
      * @throws \UnexpectedValueException
      * @return EnumInterface
+     * @throws \ReflectionException
      */
     public static function getInstanceByName(string $className, string $constName) : EnumInterface
     {
-        self::__start($className);
+        self::start($className);
         if (!array_key_exists($constName, self::$instanced[$className])) {
             throw new \UnexpectedValueException("Name '$constName' is not part of the enum " . $className);
         }
@@ -120,10 +125,11 @@ abstract class EnumCacheManagement
      * @param bool $strict
      * @throws \UnexpectedValueException
      * @return EnumInterface
+     * @throws \ReflectionException
      */
     public static function getInstanceByValue(string $className, $constValue, bool $strict) : EnumInterface
     {
-        self::__start($className);
+        self::start($className);
         /** @var Enum $class */
         foreach (self::$instanced[$className] as $class) {
             if ($strict) {
@@ -145,10 +151,11 @@ abstract class EnumCacheManagement
      * @param string $className
      * @param string $constName
      * @return bool
+     * @throws \ReflectionException
      */
     public static function isValidKey(string $className, string $constName) : bool
     {
-        self::__start($className);
+        self::start($className);
         /** @var Enum $class */
         foreach (self::$instanced[$className] as $class) {
             if ($class->getKey() === $constName) {
@@ -165,10 +172,11 @@ abstract class EnumCacheManagement
      * @param string $constValue
      * @param bool $strict
      * @return bool
+     * @throws \ReflectionException
      */
     public static function isValidValue(string $className, $constValue, bool $strict) : bool
     {
-        self::__start($className);
+        self::start($className);
         /** @var Enum $class */
         foreach (self::$instanced[$className] as $class) {
             if ($strict) {
@@ -189,10 +197,11 @@ abstract class EnumCacheManagement
      *
      * @param $className
      * @return array
+     * @throws \ReflectionException
      */
     public static function getAll($className) : array
     {
-        self::__start($className);
+        self::start($className);
 
         $all = array();
         /** @var Enum $class */
@@ -207,10 +216,11 @@ abstract class EnumCacheManagement
      *
      * @param $className
      * @return array
+     * @throws \ReflectionException
      */
     public static function getValues($className) : array
     {
-        self::__start($className);
+        self::start($className);
 
         $values = array();
         /** @var Enum $class */

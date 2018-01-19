@@ -45,6 +45,8 @@ abstract class Enum implements EnumInterface, JsonSerializable
      * @param $method
      * @param array $args
      * @return EnumInterface
+     * @throws \UnexpectedValueException
+     * @throws \ReflectionException
      */
     final public static function __callStatic($method, array $args) : EnumInterface
     {
@@ -101,14 +103,16 @@ abstract class Enum implements EnumInterface, JsonSerializable
      * Get content of description annotation
      *
      * @return string
+     * @throws \InvalidArgumentException
+     * @throws \ReflectionException
      */
     public function getDescription() : string
     {
-        if (is_null($this->description)) {
-            EnumCacheManagement::setDescriptions(get_called_class());
+        if (null === $this->description) {
+            EnumCacheManagement::setDescriptions(static::class);
         }
-        if (is_null($this->description)) {
-            throw new \InvalidArgumentException('No description is available for ' . get_called_class() .
+        if (null === $this->description) {
+            throw new \InvalidArgumentException('No description is available for ' . static::class .
                 ' with value : ' . $this->value);
         }
         return $this->description;
@@ -120,7 +124,7 @@ abstract class Enum implements EnumInterface, JsonSerializable
      * @param EnumInterface $enum
      * @return bool
      */
-    public function isEquals(EnumInterface $enum) : bool
+    public function isEqual(EnumInterface $enum) : bool
     {
         return $this === $enum;
     }
@@ -130,10 +134,12 @@ abstract class Enum implements EnumInterface, JsonSerializable
      *
      * @param $key
      * @return EnumInterface
+     * @throws \UnexpectedValueException
+     * @throws \ReflectionException
      */
     public static function byKey(string $key) : EnumInterface
     {
-        return EnumCacheManagement::getInstanceByName(get_called_class(), $key);
+        return EnumCacheManagement::getInstanceByName(static::class, $key);
     }
 
     /**
@@ -145,41 +151,46 @@ abstract class Enum implements EnumInterface, JsonSerializable
      * @param $value
      * @param bool $strict compare the type to be sure
      * @return EnumInterface
+     * @throws \UnexpectedValueException
+     * @throws \ReflectionException
      */
     public static function byValue($value, bool $strict = true) : EnumInterface
     {
-        return EnumCacheManagement::getInstanceByValue(get_called_class(), $value, $strict);
+        return EnumCacheManagement::getInstanceByValue(static::class, $value, $strict);
     }
 
     /**
      * Get all possible instance of called class Enum
      *
      * @return array [Enum {...}, Enum {...}, ...]
+     * @throws \ReflectionException
      */
     public static function getAll() : array
     {
-        return EnumCacheManagement::getAll(get_called_class());
+        return EnumCacheManagement::getAll(static::class);
     }
 
     /**
      * Get values of called class Enum
      *
      * @return array [key => value, key => value, ...]
+     * @throws \ReflectionException
      */
     public static function getValues() : array
     {
-        return EnumCacheManagement::getValues(get_called_class());
+        return EnumCacheManagement::getValues(static::class);
     }
-    
+
     /**
      * Check if key is valid into the class
      *
      * @param $key
      * @return boolean
+     * @throws \ReflectionException
      */
     public static function isValidKey(string $key) : bool
     {
-        return EnumCacheManagement::isValidKey(get_called_class(), $key);
+        return EnumCacheManagement::isValidKey(static::class, $key);
     }
 
     /**
@@ -189,9 +200,10 @@ abstract class Enum implements EnumInterface, JsonSerializable
      * @param mixed $value
      * @param bool $strict
      * @return boolean
+     * @throws \ReflectionException
      */
     public static function isValidValue($value, bool $strict = true) : bool
     {
-        return EnumCacheManagement::isValidValue(get_called_class(), $value, $strict);
+        return EnumCacheManagement::isValidValue(static::class, $value, $strict);
     }
 }
