@@ -35,7 +35,7 @@ abstract class Enum implements EnumInterface, JsonSerializable
      * @param $value
      * @param string $key
      */
-    final private function __construct($value, string $key)
+    private function __construct($value, string $key)
     {
         $this->key = $key;
         $this->value = $value;
