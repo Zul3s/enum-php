@@ -64,7 +64,7 @@ abstract class Enum implements EnumInterface, JsonSerializable
     /**
      * @throws \LogicException
      */
-    final private function __clone()
+    private function __clone()
     {
         throw new \LogicException('Enums are singleton, it is not cloneable');
     }
